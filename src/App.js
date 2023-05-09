@@ -97,7 +97,7 @@ const initialize={
 
 function reducer(state, action){
   switch(action.type){
-    case "ONCHANGE":
+    case "ONCHANGE_COUNT":
       console.log(state.inputs);
       return{
         ...state,
