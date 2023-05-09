@@ -1,6 +1,6 @@
 import React from "react";
 
-function CheckBoxSet({onChange2, Type,minNumber, minNumberUnit, maxCount}){
+function CheckBoxSet({onChange, Type,minNumber, minNumberUnit, maxCount}){
     const useType = Type ==="무게" ? "KG" : "회";
     const checkBoxArray =[];
     const weight = minNumber;
@@ -25,7 +25,7 @@ function CheckBoxSet({onChange2, Type,minNumber, minNumberUnit, maxCount}){
                 <label for={WeightKg}>{WeightKg}{useType}</label>
                 </div>
                 <div>
-                    <input type="checkbox" name={WeightKg} value={WeightKg} onChange={onChange2}></input>
+                    <input type="checkbox" name={WeightKg} value={WeightKg} onChange={onChange}></input>
                 </div>
 
             </span>
@@ -40,6 +40,7 @@ function CheckBoxSet({onChange2, Type,minNumber, minNumberUnit, maxCount}){
 
 
 function workSet({onChange}){
+    // console.log(onChange);
     return(
         <div
             style={{

@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 import WorkUnit from './components/workUnit.js'
 import WorkList from './components/workList.js'
 import WorkSet from './components/workSet.js'
+import WorkTest from './components/test.js'
 
 const TABLECOLOR = "F4F2F3";
 
@@ -15,48 +16,80 @@ const initialize={
     in_workCount:''
   },
 
-  data : [
+  data_workUnit : [
+    {
+      id : 1,
+      WorkUnitCd:1 ,
+      WorkUnitNm:"가슴",
+      activate:true
+    },
+    {
+      id : 2,
+      WorkUnitCd:2,
+      WorkUnitNm:"등",
+      activate:false
+    },
+    {
+      id : 3,
+      WorkUnitCd:3,
+      WorkUnitNm:"하체",
+      activate:false
+    }],
+
+  data_workList : [
     {
       id : 1,
       WorkUnitCd:1 ,
       WorkUnitNm:"가슴",
       WorkItemCd:1 ,
-      WorkItemNm:"벤치프레스"
+      WorkItemNm:"벤치프레스",
+      activate:false,
+      visiblable:true,
     },
     {
       id : 2,
       WorkUnitCd:1,
       WorkUnitNm:"가슴",
       WorkItemCd:2 ,
-      WorkItemNm:"바벨프레스"
+      WorkItemNm:"바벨프레스",
+      activate:false,
+      visiblable:true,
     },
     {
       id : 3,
       WorkUnitCd:2,
       WorkUnitNm:"등",
       WorkItemCd:1 ,
-      WorkItemNm:"풀업"
+      WorkItemNm:"풀업",
+      activate:false,
+      visiblable:true,
     },
     {
       id : 4,
       WorkUnitCd:2,
       WorkUnitNm:"등",
       WorkItemCd:2 ,
-      WorkItemNm:"렛풀다운"
+      WorkItemNm:"렛풀다운",
+      activate:false,
+      visiblable:true,
     },
     {
       id : 5,
       WorkUnitCd:2,
       WorkUnitNm:"등",
       WorkItemCd:3 ,
-      WorkItemNm:"바벨로우"
+      WorkItemNm:"바벨로우",
+      activate:false,
+      visiblable:true,
     },
     {
       id : 6,
       WorkUnitCd:3,
       WorkUnitNm:"하체",
       WorkItemCd:1 ,
-      WorkItemNm:"스쿼트"
+      WorkItemNm:"스쿼트",
+      activate:false,
+      visiblable:true,
     }
   ]
 };
@@ -65,17 +98,15 @@ const initialize={
 function reducer(state, action){
   switch(action.type){
     case "ONCHANGE":
-      console.log("Click");
+      console.log(state.inputs);
       return{
         ...state,
         inputs:{
           ...state.inputs,
-          [action.name]: action.value
+          ...state.inputs.in_workCount = action.value
         }
     };
   }
-
-
   return state;
 }
 
@@ -92,11 +123,6 @@ const Frame = styled.div`
   };
 `;
 
-
-
-
-
-
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initialize);
@@ -105,28 +131,29 @@ function App() {
 
 
   const onChange = useCallback(e => {
-    console.log(1);
     const { name, value } = e.target;
     dispatch({
-      type: 'ONCHANGE',
+      type: 'ONCHANGE_COUNT',
       name,
       value
     });
   }, []);
 
+  // const onChange=() =>{
+  //   console.log(1);
+  // }
 
-
+// console.log(onChange +'/1');
   return (
     <>
-      <span>운동단위 :     </span>
-      <span>운동항목 :     </span>
-      <span>무게 :     </span>
-      <span>횟수 :     </span>
 
+      <WorkTest argInputs={state.inputs}></WorkTest>
+      
       <Frame color={TABLECOLOR}>
-        <WorkUnit Work={initialize.data}></WorkUnit>
-        <WorkList onChange={onChange} Work={initialize.data}></WorkList>
-        <WorkSet></WorkSet>
+        <WorkUnit Work={initialize.data_workUnit}></WorkUnit>
+        <WorkList Work={initialize.data_workList}></WorkList>
+        
+        <WorkSet onChange={onChange}></WorkSet>
       </Frame>
       <Frame color="blue">
         운동 히스토리

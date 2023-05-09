@@ -4,7 +4,8 @@ function ItemList({Item}){
     return(
         <tr
             style={{
-                cursor:"pointer"
+                cursor:"pointer",
+                backgroundColor: Item.activate ? "gray":""
             }}
         >
             <td>{Item.WorkUnitCd}</td>
