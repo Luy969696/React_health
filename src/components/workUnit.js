@@ -1,20 +1,22 @@
 import React from "react";
 
-function ItemList({Item}){
+function ItemList({Item, onClick}){
     return(
-        <tr
+        <tr 
             style={{
                 cursor:"pointer",
-                backgroundColor: Item.activate ? "gray":""
+                backgroundColor: Item.activate ? "gray":"white"
             }}
+            onClick={() => onClick(Item.WorkUnitCd)}
         >
             <td>{Item.WorkUnitCd}</td>
             <td>{Item.WorkUnitNm}</td>
         </tr>
     );
 }
+// onClick ={()=> onToggle(user.id)}
 
-function workUnit({Work}){
+function workUnit({Work, onClick}){
     return(
         <table>
             <thead>
@@ -23,7 +25,7 @@ function workUnit({Work}){
             <tbody>
                 {
                     Work.map(props =>(
-                        <ItemList key={props.WorkUnitCd} Item={props} />
+                        <ItemList onClick={onClick} Item={props} />
                     ))
                 }
             </tbody>

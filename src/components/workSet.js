@@ -25,7 +25,8 @@ function CheckBoxSet({onChange, Type,minNumber, minNumberUnit, maxCount}){
                 <label for={WeightKg}>{WeightKg}{useType}</label>
                 </div>
                 <div>
-                    <input type="checkbox" name={WeightKg} value={WeightKg} onChange={onChange}></input>
+                    
+                    <input type="radio" name={Type} value={WeightKg} onChange={onChange}></input>
                 </div>
 
             </span>
@@ -51,7 +52,7 @@ function workSet({onChange}){
             }}
         >
             <div>
-                <CheckBoxSet Type="무게" minNumber={20} minNumberUnit={5} maxCount={20}></CheckBoxSet>
+                <CheckBoxSet onChange={onChange} Type="무게" minNumber={20} minNumberUnit={5} maxCount={20}></CheckBoxSet>
             </div>
             <hr></hr>
             <div>

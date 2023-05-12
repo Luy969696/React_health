@@ -21,7 +21,7 @@ const initialize={
       id : 1,
       WorkUnitCd:1 ,
       WorkUnitNm:"가슴",
-      activate:true
+      activate:false
     },
     {
       id : 2,
@@ -98,13 +98,28 @@ const initialize={
 function reducer(state, action){
   switch(action.type){
     case "ONCHANGE_COUNT":
-      console.log(state.inputs);
       return{
         ...state,
         inputs:{
           ...state.inputs,
           ...state.inputs.in_workCount = action.value
         }
+    };
+    case "ONCHANGE_WEIGHT":
+      return{
+        ...state,
+        inputs:{
+          ...state.inputs,
+          ...state.inputs.in_workWeight = action.value
+        }
+    };
+    case "TOGGLE_UNIT":
+      console.log(state.inputs+"/"+action.id);
+      state.data_workUnit.map(id => console.log(id)); 
+      return{
+        ...state,
+        data_workUnit: state.data_workUnit.map(id => id ===2 ?  {...id,activate:!id.activate}:id) 
+
     };
   }
   return state;
@@ -129,28 +144,45 @@ function App() {
   const {datas} = state;
   const {in_workCount,in_workItem,in_workUnit,in_workWeight} = state.inputs;
 
-
   const onChange = useCallback(e => {
     const { name, value } = e.target;
-    dispatch({
-      type: 'ONCHANGE_COUNT',
-      name,
-      value
-    });
-  }, []);
+    
+    switch(name){
+      case "횟수":
+        dispatch({
+          type: 'ONCHANGE_COUNT',
+          name,
+          value
+        }); 
+      break;
 
-  // const onChange=() =>{
-  //   console.log(1);
-  // }
+      case "무게":
+        dispatch({
+          type: 'ONCHANGE_WEIGHT',
+          name,
+          value
+        }); 
+      break;
+    }
 
-// console.log(onChange +'/1');
+      }, []);
+
+    const onClick = useCallback(id => {
+      console.log(id);
+      dispatch({
+        type: 'TOGGLE_UNIT',
+        id
+      });
+    },[]);
+    
+
   return (
     <>
 
       <WorkTest argInputs={state.inputs}></WorkTest>
       
       <Frame color={TABLECOLOR}>
-        <WorkUnit Work={initialize.data_workUnit}></WorkUnit>
+        <WorkUnit Work={initialize.data_workUnit} onClick={onClick}></WorkUnit>
         <WorkList Work={initialize.data_workList}></WorkList>
         
         <WorkSet onChange={onChange}></WorkSet>

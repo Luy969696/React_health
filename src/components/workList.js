@@ -1,6 +1,6 @@
 import React from "react";
 
-function ItemList2({Item}){
+function ItemList({Item}){
     return(
         <tr
             style={{
@@ -13,7 +13,7 @@ function ItemList2({Item}){
     );
 }
 
-function workList({Work}){
+function workList({Work, onClick}){
     return(
         <table>
             <thead>
@@ -22,7 +22,7 @@ function workList({Work}){
             <tbody>
                 {
                     Work.map(props =>(
-                        <ItemList2 key={props.WorkItemCd} Item={props} />
+                        <ItemList  onClick={onClick} key={props.WorkItemCd} Item={props} />
                     ))
                 }
             </tbody>
