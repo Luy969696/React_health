@@ -114,13 +114,35 @@ function reducer(state, action){
         }
     };
     case "TOGGLE_UNIT":
-      console.log(state.inputs+"/"+action.id);
-      state.data_workUnit.map(id => console.log(id)); 
       return{
         ...state,
-        data_workUnit: state.data_workUnit.map(id => id ===2 ?  {...id,activate:!id.activate}:id) 
-
+        data_workUnit: state.data_workUnit.map(data =>
+          data.WorkUnitCd === action.WorkUnitCd ? {...data,
+                                  ...state.inputs.in_workUnit=data.WorkUnitNm,
+                                  activate:true
+                                }:{
+                                  ...data,
+                                  activate:false
+                                }
+        ), 
+        data_workList : state.data_workList.map(data =>
+          data.WorkUnitCd == action.WorkUnitCd ? {...data, visiblable : false } : {...data, visiblable : true }
+        )
     };
+    case "TOGGLE_ITEM":
+      console.log(action.WorkItemCd);
+      return{
+        ...state,
+        data_workList: state.data_workList.map(data=>
+          data.WorkItemCd === action.WorkItemCd ? { ...data,
+                                  ...state.inputs.in_workItem=data.WorkItemNm
+                                  // activate:true
+          }:{
+            ...data,
+            activate:false
+          }
+          )
+      }
   }
   return state;
 }
@@ -137,7 +159,6 @@ const Frame = styled.div`
     }  
   };
 `;
-
 function App() {
 
   const [state, dispatch] = useReducer(reducer, initialize);
@@ -167,11 +188,17 @@ function App() {
 
       }, []);
 
-    const onClick = useCallback(id => {
-      console.log(id);
+    const onClickUnit = useCallback(WorkUnitCd => {
       dispatch({
         type: 'TOGGLE_UNIT',
-        id
+        WorkUnitCd
+      });
+    },[]);
+
+    const onClickItem = useCallback(WorkItemCd => {
+      dispatch({
+        type: 'TOGGLE_ITEM',
+        WorkItemCd
       });
     },[]);
     
@@ -182,8 +209,8 @@ function App() {
       <WorkTest argInputs={state.inputs}></WorkTest>
       
       <Frame color={TABLECOLOR}>
-        <WorkUnit Work={initialize.data_workUnit} onClick={onClick}></WorkUnit>
-        <WorkList Work={initialize.data_workList}></WorkList>
+        <WorkUnit Work={state.data_workUnit} onClick={onClickUnit}></WorkUnit>
+        <WorkList Work={state.data_workList} onClick={onClickItem}></WorkList>
         
         <WorkSet onChange={onChange}></WorkSet>
       </Frame>

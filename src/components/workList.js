@@ -1,11 +1,15 @@
 import React from "react";
 
-function ItemList({Item}){
+function ItemList({Item, onClick}){
     return(
         <tr
             style={{
-                cursor:"pointer"
+                cursor:"pointer",
+                display: Item.visiblable ? "none" : "",
+                backgroundColor: Item.activate ? "gray":"white"
+                
             }}
+            onClick={()=>onClick(Item.WorkItemCd)}
         >
             <td>{Item.WorkItemCd}</td>
             <td>{Item.WorkItemNm}</td>
