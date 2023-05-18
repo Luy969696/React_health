@@ -10,8 +10,10 @@ const TABLECOLOR = "F4F2F3";
 const initialize={
 
   inputs:{
-    in_workUnit:'',
-    in_workItem:'',
+    in_workUnitCd:'',
+    in_workUnitNm:'',
+    in_workItemCd:'',
+    in_workItemNm:'',
     in_workWeight:'',
     in_workCount:''
   },
@@ -96,13 +98,16 @@ const initialize={
 
 
 function reducer(state, action){
+  console.log(state);
+  console.log(action);
+  
   switch(action.type){
     case "ONCHANGE_COUNT":
       return{
         ...state,
         inputs:{
           ...state.inputs,
-          ...state.inputs.in_workCount = action.value
+          in_workCount: action.value
         }
     };
     case "ONCHANGE_WEIGHT":
@@ -110,7 +115,7 @@ function reducer(state, action){
         ...state,
         inputs:{
           ...state.inputs,
-          ...state.inputs.in_workWeight = action.value
+          in_workWeight : action.value
         }
     };
     case "TOGGLE_UNIT":
@@ -118,7 +123,8 @@ function reducer(state, action){
         ...state,
         data_workUnit: state.data_workUnit.map(data =>
           data.WorkUnitCd === action.WorkUnitCd ? {...data,
-                                  ...state.inputs.in_workUnit=data.WorkUnitNm,
+                                  ...state.inputs.in_workUnitNm = data.WorkUnitNm,
+                                  ...state.inputs.in_workUnitCd = data.WorkUnitCd,
                                   activate:true
                                 }:{
                                   ...data,
@@ -126,23 +132,27 @@ function reducer(state, action){
                                 }
         ), 
         data_workList : state.data_workList.map(data =>
-          data.WorkUnitCd == action.WorkUnitCd ? {...data, visiblable : false } : {...data, visiblable : true }
+          (data.WorkUnitCd === action.WorkUnitCd) ? {...data, visiblable : false } : {...data, visiblable : true }
         )
     };
     case "TOGGLE_ITEM":
-      console.log(action.WorkItemCd);
-      return{
+      return {
         ...state,
-        data_workList: state.data_workList.map(data=>
-          data.WorkItemCd === action.WorkItemCd ? { ...data,
-                                  ...state.inputs.in_workItem=data.WorkItemNm
-                                  // activate:true
-          }:{
-            ...data,
-            activate:false
-          }
-          )
-      }
+        data_workList: state.data_workList.map((data) =>
+          data.WorkItemCd === action.WorkItemCd && data.WorkUnitCd == action.WorkUnitCd
+            ? {
+                ...data,
+                ...state.inputs.in_workItemCd = data.WorkItemCd,
+                ...state.inputs.in_workItemNm = data.WorkItemNm,
+                activate: true,
+              }
+            : {
+                ...data,
+                activate: false,
+              }
+        ),
+      };
+    
   }
   return state;
 }
@@ -163,7 +173,7 @@ function App() {
 
   const [state, dispatch] = useReducer(reducer, initialize);
   const {datas} = state;
-  const {in_workCount,in_workItem,in_workUnit,in_workWeight} = state.inputs;
+  // const {in_workCount,in_workItemNm,in_workUnitNm,in_workWeight} = state.inputs;
 
   const onChange = useCallback(e => {
     const { name, value } = e.target;
@@ -185,20 +195,22 @@ function App() {
         }); 
       break;
     }
-
       }, []);
 
-    const onClickUnit = useCallback(WorkUnitCd => {
+    const onClickUnit = useCallback((WorkUnitCd, WorkUnitNm) => {
       dispatch({
         type: 'TOGGLE_UNIT',
-        WorkUnitCd
+        WorkUnitCd,
+        WorkUnitNm
       });
     },[]);
 
-    const onClickItem = useCallback(WorkItemCd => {
+    const onClickItem = useCallback((WorkUnitCd, WorkItemCd, WorkItemNm) => {
       dispatch({
         type: 'TOGGLE_ITEM',
-        WorkItemCd
+        WorkUnitCd,
+        WorkItemCd,
+        WorkItemNm
       });
     },[]);
     

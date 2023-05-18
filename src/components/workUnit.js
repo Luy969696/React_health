@@ -7,7 +7,7 @@ function ItemList({Item, onClick}){
                 cursor:"pointer",
                 backgroundColor: Item.activate ? "gray":"white"
             }}
-            onClick={() => onClick(Item.WorkUnitCd)}
+            onClick={() => onClick(Item.WorkUnitCd, Item.WorkUnitNm)}
         >
             <td>{Item.WorkUnitCd}</td>
             <td>{Item.WorkUnitNm}</td>

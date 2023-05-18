@@ -9,10 +9,10 @@ function ItemList({Item, onClick}){
                 backgroundColor: Item.activate ? "gray":"white"
                 
             }}
-            onClick={()=>onClick(Item.WorkItemCd)}
+            onClick={()=>onClick(Item.WorkUnitCd, Item.WorkItemCd, Item.WorkItemNm)}
         >
-            <td>{Item.WorkItemCd}</td>
-            <td>{Item.WorkItemNm}</td>
+            <td hidden>{Item.WorkItemCd}</td>
+            <td style={{ width:"100px" }}>{Item.WorkItemNm}</td>
         </tr>
     );
 }
