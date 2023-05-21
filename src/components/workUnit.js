@@ -1,34 +1,44 @@
 import React from "react";
 
-function ItemList({Item, onClick}){
+function ItemList({Item}){
+    console.log("test"+Item.activate);
+
+
     return(
         <tr 
             style={{
                 cursor:"pointer",
-                backgroundColor: Item.activate ? "gray":"white"
+                // backgroundColor: Item.activate ? "gray":"white"
             }}
-            onClick={() => onClick(Item.WorkUnitCd, Item.WorkUnitNm)}
         >
-            <td>{Item.WorkUnitCd}</td>
-            <td>{Item.WorkUnitNm}</td>
+            <td hidden>{Item.WorkUnitCd}</td>
+            <td style={{
+                    width:"100px",
+                    border: Item.activate ? "4px solid" : "1px solid",
+                    borderColor: Item.activate? "#54E5F5":"black",
+                    borderRadius : "8px",
+                    textAlign:"center"
+                }}>{Item.WorkUnitNm}</td>
         </tr>
     );
 }
-// onClick ={()=> onToggle(user.id)}
 
-function workUnit({Work, onClick}){
+function workUnit({WorkUnit}){
     return(
-        <table>
+        <table >
             <thead>
-                <tr>단위</tr>
+                <tr>
+                    <th>단위</th>
+                </tr>
             </thead>
             <tbody>
                 {
-                    Work.map(props =>(
-                        <ItemList onClick={onClick} Item={props} />
+                    WorkUnit.map(props =>(
+                        <ItemList key={props.WorkUnitCd} Item={props} />
                     ))
                 }
             </tbody>
+            {/* <tfoot>d</tfoot> */}
         </table>
     );
 }

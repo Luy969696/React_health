@@ -46,9 +46,12 @@ function workSet({onChange}){
         <div
             style={{
                 margin:"10px 10px 0px",
-                width:"80%",
-                backgroundColor:"pink",
-                border:"2px solid"
+                
+                width:"70%",
+                border: "2px solid",
+                borderRadius:"4px",
+                backgroundColor:"#ccffff",
+                
             }}
         >
             <div>
