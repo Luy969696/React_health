@@ -1,4 +1,4 @@
-import React,{createContext, useState, useContext} from 'react';
+import React,{createContext, useState, useContext,useReducer} from 'react';
 
 const initialize={
 
@@ -14,7 +14,7 @@ const initialize={
       id : 1,
       WorkUnitCd:1 ,
       WorkUnitNm:"가슴",
-      activate:true
+      activate:false
     },
     {
       id : 2,
@@ -54,7 +54,7 @@ const initialize={
       WorkUnitNm:"등",
       WorkItemCd:1 ,
       WorkItemNm:"풀업",
-      activate:true,
+      activate:false,
       visiblable:true,
     },
     {
@@ -88,17 +88,82 @@ const initialize={
 };
 
 
-const StateContext = createContext();
+function StateReducer(state, action){
+  switch(action.type){
+    case "ONCHANGE_COUNT":
+      return{
+        ...state,
+        inputs:{
+          ...state.inputs,
+          in_workCount: action.value
+        }
+    };
+    case "ONCHANGE_WEIGHT":
+      return{
+        ...state,
+        inputs:{
+          ...state.inputs,
+          in_workWeight : action.value
+        }
+    };
+    case "TOGGLE_UNIT":
+      console.log(state);
+      console.log("직쇼!");
+      return{
+        ...state,
+        data_workUnit: state.data_workUnit.map(data =>
+          data.WorkUnitCd === action.WorkUnitCd ? {...data,
+                                  activate:true
+                                }:{
+                                  ...data,
+                                  activate:false
+                                }
+        ),
+        data_workList : state.data_workList.map(data =>
+          (data.WorkUnitCd === action.WorkUnitCd) ? {...data, visiblable : false  } : {...data, visiblable : true , activate : false}
+        )
+    };
+    case "TOGGLE_ITEM":
+      console.log(state);
+      return {
+        ...state,
+        data_workList: state.data_workList.map((data) =>
+          data.WorkItemCd === action.WorkItemCd && data.WorkUnitCd == action.WorkUnitCd
+            ? {
+                ...data,
+                ...state.inputs.in_workUnitNm = data.WorkUnitNm,
+                ...state.inputs.in_workUnitCd = data.WorkUnitCd,
+                ...state.inputs.in_workItemCd = data.WorkItemCd,
+                ...state.inputs.in_workItemNm = data.WorkItemNm,
+                activate: true,
+              }
+            : {
+                ...data,
+                activate: false,
+              }
+        ),
+      };
     
+  }
+  return state;
+}
+
+
+
+
+const StateContext = createContext();
+const StateDispatchContext = createContext();
 
 
 export function ItemProvider({children}){
-
-    const [state] = useState(initialize);
+    // const [state] = useState(initialize);
+    const [state, dispatch] = useReducer(StateReducer,initialize);
 
     return(
         <StateContext.Provider value ={state}>
+          <StateDispatchContext.Provider value={dispatch}>
             {children}
+          </StateDispatchContext.Provider>
         </StateContext.Provider>
     );
 
@@ -110,3 +175,8 @@ export function ItemProvider({children}){
 export function useStateContext(){
     return useContext(StateContext);
 }
+
+export function useStateDispatchContext(){
+  return useContext(StateDispatchContext);
+}
+

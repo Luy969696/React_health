@@ -7,11 +7,6 @@ function WorkFrame(){
     const ItemHeader = useStateContext().inputs;
     const ItemUnit = useStateContext().data_workUnit;
     const ItemList = useStateContext().data_workList;
-    
-    
-
-    
-
 
     return(
         <>

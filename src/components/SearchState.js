@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { useStateContext } from "../ItemContext";
 
 
 const StateFrame = styled.div`
@@ -30,11 +31,23 @@ function SearchState({argInputs}){
     };
     inputs = argInputs;
 
+    const State = useStateContext();
+    const WorkUnitNm = State.data_workUnit.find(Item => Item.activate)?.WorkUnitNm;
+    const WorkItemNm = State.data_workList.find(Item => Item.activate)?.WorkItemNm;    
+    const WorkWeight = "";
+    const WorkCount = "";
+    // console.log(WorkUnitNm);
+    // console.log(WorkUnitNm[0].WorkUnitNm);
+
+
+    
+
+
     return(
         <>
         <StateFrame>
-            <StateItem>운동단위 :   {inputs.in_workUnitNm}  </StateItem>
-            <StateItem>운동항목 :   {inputs.in_workItemNm}  </StateItem>
+            <StateItem>운동단위 :   {WorkUnitNm && WorkUnitNm }  </StateItem>
+            <StateItem>운동항목 :   {WorkItemNm && WorkItemNm}  </StateItem>
             <StateItem>무게 :   {inputs.in_workWeight}  </StateItem>
             <StateItem>횟수 :   {inputs.in_workCount}  </StateItem>
         </StateFrame> 

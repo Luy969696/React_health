@@ -1,25 +1,20 @@
 import React from "react";
 import styled from "styled-components";
-
-// const GlobalStyle = createGlobalStyle`
-//   body {
-//     background: #e9ecef;
-//   }
-// `;
-const GlobalCss = styled`
-    td{background:red;
-        color:red;
-    }
-
-`;
-
+import { useStateDispatchContext } from "../ItemContext";
 
 function ItemList({Item}){
-    console.log("IN"+{Item});
+    const dispatch = useStateDispatchContext();
+    const Toggle = () => dispatch({
+        type:"TOGGLE_ITEM",
+        WorkItemCd:Item.WorkItemCd,
+        WorkUnitCd:Item.WorkUnitCd
+    });
+
     return(
         <tr
             style={{
                 cursor:"pointer",                
+                display: Item.visiblable ? "none" : ""
             }}
             
         >
@@ -29,7 +24,7 @@ function ItemList({Item}){
                         borderColor: Item.activate? "#54E5F5":"black",
                         borderRadius : "8px",
                         textAlign:"center"
-            }}>{Item.WorkItemNm}</td>
+            }} onClick={Toggle}>{Item.WorkItemNm}</td>
         </tr>
     );
 }
@@ -38,7 +33,7 @@ function workList({WorkItem}){
     
     return(
         <>
-        <GlobalCss/>
+        
         <table>
             <thead>
                 <tr><th>항목</th></tr>

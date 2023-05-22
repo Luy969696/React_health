@@ -1,14 +1,22 @@
 import React from "react";
+import { useStateDispatchContext } from "../ItemContext";
+
+
 
 function ItemList({Item}){
-    console.log("test"+Item.activate);
+    
+    
+    const dispatch = useStateDispatchContext();
+    const Toggle = () => dispatch({
+        type:"TOGGLE_UNIT",
+        WorkUnitCd:Item.WorkUnitCd
+    });
 
 
     return(
         <tr 
             style={{
                 cursor:"pointer",
-                // backgroundColor: Item.activate ? "gray":"white"
             }}
         >
             <td hidden>{Item.WorkUnitCd}</td>
@@ -18,12 +26,14 @@ function ItemList({Item}){
                     borderColor: Item.activate? "#54E5F5":"black",
                     borderRadius : "8px",
                     textAlign:"center"
-                }}>{Item.WorkUnitNm}</td>
+                }} onClick={Toggle}>{Item.WorkUnitNm}</td>
         </tr>
     );
 }
 
 function workUnit({WorkUnit}){
+
+
     return(
         <table >
             <thead>
