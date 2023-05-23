@@ -12,10 +12,12 @@ const initialize={
   work_weight:[{
     // id:0,
     // weight:1
+    // activate:true
   }],
   work_count:[{
     // id:0,
-    // count:1
+    // count:1,
+    // activate:true
   }],
   
   data_workUnit : [
@@ -98,37 +100,31 @@ const initialize={
 
 
 function StateReducer(state, action){
-  console.log(state);
-  console.log(action.id);
   switch(action.type){
-    case "ONCHANGE_COUNT": 
-    console.log(action.id + "asd");
-      return{
+    case "ONCHANGE_WEIGHT": 
+    
+    const updatedWorkWeight = state.work_weight.map(data => ({
+      ...data,
+      activate: data.weight === action.value
+    }));
+  
+    console.log(updatedWorkWeight)
+
+    return {
+      ...state,
+      work_weight: updatedWorkWeight
+    }
+
+    case "ONCHANGE_COUNT":
+      const updatedWorkCount = state.work_count.map(data => ({
+        ...data,
+        activate: data.count <= action.value ? true : false,
+      }));
+    
+      return {
         ...state,
-        work_weight: state.work_count.map(data=> 
-          data.id <= action.id ? {
-            ...data,
-            activate:true,
-          } : {
-            ...data,
-            activate:false,
-          }
-        )
-    };
-    case "ONCHANGE_WEIGHT":
-      return{}
-      // return{
-      //   ...state,
-      //   work_weight: state.work_weight.map(data=>
-      //     data.id === action.id ? {
-      //       ...data,
-      //       activate:false,
-      //     } : {
-      //       ...data,
-      //       activate:false,
-      //     }
-      //   )
-      // };
+        work_count: updatedWorkCount
+      };
     case "TOGGLE_UNIT":
       return{
         ...state,

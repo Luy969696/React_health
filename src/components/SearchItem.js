@@ -22,7 +22,6 @@ function SearchItem({WorkUnit, WorkItem}){;
     return(
         <>
             <Frame>
-            <div> test </div>
             <WorkUnitFrame>
                 <WorkUnitList WorkUnit={WorkUnit}></WorkUnitList>
                 <WorkItemList WorkItem={WorkItem}></WorkItemList>

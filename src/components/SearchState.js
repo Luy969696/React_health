@@ -37,11 +37,11 @@ function SearchState({argInputs}){
 
 
 
-    const WorkWeight = State.WorkWeight = 0  ? State.WorkWeight.find(Item => Item.activate) : "no";
-    const WorkCount = State.WorkCount > 0 ? State.WorkCount.find(Item => Item.activate).length : "0";
-    
+    const WorkWeight = State.work_weight.length > 0 ? State.work_weight.find(Item => Item.activate === true).weight : "no";
+    const WorkCount = State.work_count.length > 0 ? State.work_count.filter(Item => Item.activate).length : "0";
 
 
+    console.log(WorkWeight)
     
 
 
