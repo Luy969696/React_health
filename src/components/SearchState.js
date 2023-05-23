@@ -33,11 +33,13 @@ function SearchState({argInputs}){
 
     const State = useStateContext();
     const WorkUnitNm = State.data_workUnit.find(Item => Item.activate)?.WorkUnitNm;
-    const WorkItemNm = State.data_workList.find(Item => Item.activate)?.WorkItemNm;    
-    const WorkWeight = "";
-    const WorkCount = "";
-    // console.log(WorkUnitNm);
-    // console.log(WorkUnitNm[0].WorkUnitNm);
+    const WorkItemNm = State.data_workList.find(Item => Item.activate)?.WorkItemNm;
+
+
+
+    const WorkWeight = State.WorkWeight = 0  ? State.WorkWeight.find(Item => Item.activate) : "no";
+    const WorkCount = State.WorkCount > 0 ? State.WorkCount.find(Item => Item.activate).length : "0";
+    
 
 
     
@@ -48,8 +50,8 @@ function SearchState({argInputs}){
         <StateFrame>
             <StateItem>운동단위 :   {WorkUnitNm && WorkUnitNm }  </StateItem>
             <StateItem>운동항목 :   {WorkItemNm && WorkItemNm}  </StateItem>
-            <StateItem>무게 :   {inputs.in_workWeight}  </StateItem>
-            <StateItem>횟수 :   {inputs.in_workCount}  </StateItem>
+            <StateItem>무게 :   {WorkWeight && WorkWeight}  </StateItem>
+            <StateItem>횟수 :   {WorkCount}  </StateItem>
         </StateFrame> 
         </>
     );

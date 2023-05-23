@@ -9,6 +9,15 @@ const initialize={
     in_workCount:''
   },
 
+  work_weight:[{
+    // id:0,
+    // weight:1
+  }],
+  work_count:[{
+    // id:0,
+    // count:1
+  }],
+  
   data_workUnit : [
     {
       id : 1,
@@ -89,26 +98,38 @@ const initialize={
 
 
 function StateReducer(state, action){
+  console.log(state);
+  console.log(action.id);
   switch(action.type){
-    case "ONCHANGE_COUNT":
+    case "ONCHANGE_COUNT": 
+    console.log(action.id + "asd");
       return{
         ...state,
-        inputs:{
-          ...state.inputs,
-          in_workCount: action.value
-        }
+        work_weight: state.work_count.map(data=> 
+          data.id <= action.id ? {
+            ...data,
+            activate:true,
+          } : {
+            ...data,
+            activate:false,
+          }
+        )
     };
     case "ONCHANGE_WEIGHT":
-      return{
-        ...state,
-        inputs:{
-          ...state.inputs,
-          in_workWeight : action.value
-        }
-    };
+      return{}
+      // return{
+      //   ...state,
+      //   work_weight: state.work_weight.map(data=>
+      //     data.id === action.id ? {
+      //       ...data,
+      //       activate:false,
+      //     } : {
+      //       ...data,
+      //       activate:false,
+      //     }
+      //   )
+      // };
     case "TOGGLE_UNIT":
-      console.log(state);
-      console.log("직쇼!");
       return{
         ...state,
         data_workUnit: state.data_workUnit.map(data =>
@@ -124,7 +145,7 @@ function StateReducer(state, action){
         )
     };
     case "TOGGLE_ITEM":
-      console.log(state);
+      // console.log(state);
       return {
         ...state,
         data_workList: state.data_workList.map((data) =>
